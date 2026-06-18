@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{{ document.title }}{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <a href="{% url 'home' %}" class="btn btn-outline-primary fw-bold mb-4">
+        <i class="fa-solid fa-arrow-left me-1"></i>
+        Back to search
+    </a>
+
+    <article class="detail-card">
+        <span class="stat-pill mb-3">
+            <i class="fa-regular fa-file-lines"></i>
+            Document
+        </span>
+
+        <h1 class="fw-bold mb-3">{{ document.title }}</h1>
+        <div class="border-top pt-4">
+            <p class="document-body mb-0">{{ document.content }}</p>
+        </div>
+    </article>
+</section>
+{% endblock %}

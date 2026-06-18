@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Search History{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+        <div>
+            <span class="stat-pill mb-3">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                Recent searches
+            </span>
+            <h1 class="fw-bold mb-1">Search History</h1>
+            <p class="text-muted-custom mb-0">Review and clean up your past document searches.</p>
+        </div>
+
+        <a href="{% url 'home' %}" class="btn btn-brand">
+            <i class="fa-solid fa-magnifying-glass me-1"></i>
+            Search
+        </a>
+    </div>
+
+    {% if searches %}
+        <div class="vstack gap-3">
+            {% for item in searches %}
+                <article class="history-card">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="icon-badge">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </span>
+                            <div>
+                                <h2 class="h5 fw-bold mb-1">{{ item.query }}</h2>
+                                <small class="text-muted-custom">{{ item.searched_at }}</small>
+                            </div>
+                        </div>
+
+                        <form method="POST" action="{% url 'delete_history' item.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-outline-danger fw-bold" type="submit">
+                                <i class="fa-solid fa-trash-can me-1"></i>
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state text-center">
+            <div class="icon-badge mx-auto mb-3">
+                <i class="fa-regular fa-clock"></i>
+            </div>
+            <h2 class="h5 fw-bold">No search history yet</h2>
+            <p class="text-muted-custom mb-0">Your authenticated searches will appear here.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
